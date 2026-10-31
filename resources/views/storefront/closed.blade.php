@@ -1,0 +1,2 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ $store->name }}</title><link rel="stylesheet" href="{{ asset('css/app.css') }}"></head>
+<body><div class="container center" style="padding-top:80px"><h1>{{ $store->name }}</h1><p class="muted">المتجر مغلق مؤقتاً، يرجى العودة لاحقاً.</p>@if ($store->whatsapp)<a class="btn wa" href="{{ \App\Services\Messaging\WhatsApp::link($store->whatsapp) }}">تواصل عبر واتساب</a>@endif</div></body></html>

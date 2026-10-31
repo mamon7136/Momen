@@ -1,0 +1,2 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>غير متصل</title><link rel="stylesheet" href="{{ asset('css/app.css') }}"></head>
+<body><div class="container center" style="padding-top:80px"><h1>📶 لا يوجد اتصال بالإنترنت</h1><p class="muted">يمكنك تصفح الصفحات التي زرتها سابقاً. سلتك محفوظة وسنكمل عند عودة الاتصال.</p><button class="btn" onclick="location.reload()">إعادة المحاولة</button></div></body></html>
