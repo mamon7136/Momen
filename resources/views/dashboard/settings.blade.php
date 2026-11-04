@@ -14,7 +14,7 @@
 </form>
 <div class="card">
     <h3>🌐 الدومين</h3>
-    <p>الرابط المجاني: <strong style="direction:ltr;display:inline-block">{{ $store->slug }}.{{ config('platform.domain') }}</strong></p>
+    <p>الرابط المجاني: <strong style="direction:ltr;display:inline-block">{{ $store->primaryUrl() }}</strong></p>
     @foreach ($domains as $d)
         <div class="card mb"><div class="row between"><strong style="direction:ltr">{{ $d->domain }}</strong><span class="badge {{ $d->verified_at ? 'b-active' : 'b-pending' }}">{{ $d->verified_at ? 'مفعّل' : 'بانتظار DNS' }}</span></div>
             @unless ($d->verified_at)

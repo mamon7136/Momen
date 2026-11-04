@@ -49,7 +49,7 @@ DB_USERNAME=USER_momen
 DB_PASSWORD=********
 
 PLATFORM_NAME="مومن"
-PLATFORM_DOMAIN=platform.sd
+PLATFORM_DOMAIN=platform.sd        # للتجربة السريعة على أي دومين أو IP: PLATFORM_DOMAIN=*
 PLATFORM_SCHEME=https
 # ابدأ بـ path لو لم تجهز الـ Wildcard بعد، ثم حوّلها إلى host
 STOREFRONT_MODE=path

@@ -89,6 +89,9 @@ class Store extends Model
         if ($custom) {
             return $scheme.'://'.$custom->domain;
         }
+        if (config('platform.domain') === '*') {
+            return url('/s/'.$this->slug);
+        }
         if (config('platform.storefront_mode') === 'path') {
             return $scheme.'://'.config('platform.domain').'/s/'.$this->slug;
         }

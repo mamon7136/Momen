@@ -36,7 +36,7 @@
             <a href="{{ sroute('track.lookup') }}">تتبع طلبك</a><br>
             @if ($store->whatsapp)<a href="{{ \App\Services\Messaging\WhatsApp::link($store->whatsapp, 'مرحباً، لدي استفسار') }}">تواصل عبر واتساب</a>@endif
         </div>
-        <div class="small">مدعوم بواسطة <a href="{{ config('platform.scheme').'://'.config('platform.domain') }}">{{ config('platform.name') }}</a></div>
+        <div class="small">مدعوم بواسطة <a href="{{ config('platform.domain') === '*' ? url('/') : config('platform.scheme').'://'.config('platform.domain') }}">{{ config('platform.name') }}</a></div>
     </div>
 </footer>
 @if ($store->whatsapp)

@@ -19,7 +19,7 @@
         <div class="grid g2">
             <div><label>اسم المتجر</label><input name="store_name" value="{{ old('store_name') }}" required></div>
             <div><label>رابط المتجر</label>
-                <div class="row" style="flex-wrap:nowrap;direction:ltr"><input name="slug" id="slug" value="{{ old('slug') }}" required pattern="[a-z0-9][a-z0-9-]{2,30}" placeholder="mystore" style="direction:ltr"><span class="small muted">.{{ config('platform.domain') }}</span></div>
+                <div class="row" style="flex-wrap:nowrap;direction:ltr">@if (config('platform.storefront_mode') === 'path' || config('platform.domain') === '*')<span class="small muted">{{ url('/s') }}/</span>@endif<input name="slug" id="slug" value="{{ old('slug') }}" required pattern="[a-z0-9][a-z0-9-]{2,30}" placeholder="mystore" style="direction:ltr">@unless (config('platform.storefront_mode') === 'path' || config('platform.domain') === '*')<span class="small muted">.{{ config('platform.domain') }}</span>@endunless</div>
                 <div id="slug-msg" class="small"></div>
             </div>
             <div><label>الولاية</label><select name="state">@foreach (array_keys(config('platform.states')) as $s)<option @selected(old('state')===$s)>{{ $s }}</option>@endforeach</select></div>
