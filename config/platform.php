@@ -6,7 +6,7 @@ use App\Services\Payments\Drivers\Mbok;
 use App\Services\Payments\Drivers\SyberPay;
 
 return [
-    'name' => env('PLATFORM_NAME', 'متجرك'),
+    'name' => env('PLATFORM_NAME', 'مومن'),
 
     // Main platform domain, e.g. "platform.sd". Stores live on {slug}.platform.sd
     'domain' => env('PLATFORM_DOMAIN', 'localhost'),

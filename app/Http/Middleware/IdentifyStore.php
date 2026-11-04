@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use App\Models\Store;
 use App\Models\StoreDomain;
+use App\Models\Theme;
+use App\Services\VisitTracker;
 use App\Support\Tenancy\CurrentStore;
 use Closure;
 use Illuminate\Http\Request;
@@ -42,12 +44,22 @@ class IdentifyStore
         $store = $storeId ? Store::with(['theme', 'domains'])->find($storeId) : null;
         abort_if(! $store, 404, 'المتجر غير موجود');
 
+        // Theme preview for the merchant before applying: ?preview_theme=zahra
+        if (($preview = $request->query('preview_theme')) && $request->user()?->canInStore($store, 'theme')) {
+            if ($theme = Theme::where('slug', $preview)->where('is_active', true)->first()) {
+                $store->setRelation('theme', $theme);
+                $store->theme_settings = null;
+            }
+        }
+
         $this->tenancy->set($store, $mode);
         view()->share('store', $store);
 
         if (! $store->isOpen() && ! $request->user()?->canInStore($store, 'products')) {
             return response()->view('storefront.closed', ['store' => $store], 503);
         }
+
+        app(VisitTracker::class)->hit($store, $request);
 
         return $next($request);
     }

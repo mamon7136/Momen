@@ -1,4 +1,4 @@
-@extends('layouts.store')
+@extends(theme_view('layout'))
 @section('title', 'إتمام الطلب')
 @section('content')
 <h1>إتمام الطلب</h1>

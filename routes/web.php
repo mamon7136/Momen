@@ -31,9 +31,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'merchant'])->prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/', [Dashboard\HomeController::class, 'index'])->name('home');
     Route::post('/switch/{store}', [Dashboard\HomeController::class, 'switch'])->name('switch');
+    Route::post('/goal', [Dashboard\HomeController::class, 'goal'])->name('goal');
 
     Route::middleware('merchant:products')->group(function () {
         Route::resource('products', Dashboard\ProductController::class)->except('show');
+        Route::post('products/{product}/quick', [Dashboard\ProductController::class, 'quick'])->name('products.quick');
         Route::post('products/{product}/stock', [Dashboard\ProductController::class, 'stock'])->name('products.stock');
         Route::get('categories', [Dashboard\CategoryController::class, 'index'])->name('categories.index');
         Route::post('categories', [Dashboard\CategoryController::class, 'store'])->name('categories.store');
@@ -76,6 +78,7 @@ Route::middleware(['auth', 'merchant'])->prefix('dashboard')->name('dashboard.')
     });
 
     Route::middleware('merchant:theme')->group(function () {
+        Route::get('themes', [Dashboard\ThemeController::class, 'index'])->name('themes.index');
         Route::get('design', [Dashboard\DesignController::class, 'edit'])->name('design.edit');
         Route::post('design', [Dashboard\DesignController::class, 'update'])->name('design.update');
         Route::post('design/theme', [Dashboard\DesignController::class, 'theme'])->name('design.theme');

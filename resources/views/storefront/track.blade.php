@@ -1,4 +1,4 @@
-@extends('layouts.store')
+@extends(theme_view('layout'))
 @section('title', 'طلب #'.$order->number)
 @section('content')
 @if (session('placed'))<div class="alert ok">🎉 تم استلام طلبك بنجاح! رقم الطلب #{{ $order->number }} — احفظ هذا الرابط لتتبع طلبك.</div>@endif

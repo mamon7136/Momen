@@ -73,7 +73,12 @@ class Store extends Model
         $defaults = config('platform.theme_defaults');
         $theme = $this->theme?->default_settings ?? [];
 
-        return array_replace_recursive($defaults, $theme, $this->theme_settings ?? []);
+        $own = $this->theme_settings ?? [];
+        $config = array_replace_recursive($defaults, $theme, $own);
+        // sections are an ordered list: take the most specific one as a whole (never merge index-by-index)
+        $config['sections'] = $own['sections'] ?? $theme['sections'] ?? $defaults['sections'];
+
+        return $config;
     }
 
     public function setting(string $key, mixed $default = null): mixed

@@ -30,8 +30,10 @@ class PlatformSeeder extends Seeder
             Plan::updateOrCreate(['slug' => $plan['slug']], $plan);
         }
 
-        foreach ([['nile', 'النيل', '#0f766e', '#f59e0b'], ['sahara', 'الصحراء', '#b45309', '#1f2937'], ['night', 'ليل الخرطوم', '#1e3a8a', '#facc15'], ['rose', 'الوردة', '#be185d', '#fde68a']] as [$slug, $name, $p, $s]) {
-            Theme::updateOrCreate(['slug' => $slug], ['name' => $name, 'default_settings' => ['colors' => ['primary' => $p, 'secondary' => $s]]]);
+        Theme::whereNotIn('slug', array_keys(ThemeCatalog::all()))->update(['is_active' => false]);
+        foreach (ThemeCatalog::all() as $slug => $t) {
+            Theme::updateOrCreate(['slug' => $slug], ['name' => $t['name'], 'price' => $t['price'], 'is_active' => true,
+                'preview_image' => 'themes/'.$slug.'/preview.jpg', 'default_settings' => $t['settings']]);
         }
 
         ExchangeRate::updateOrCreate(['currency' => 'USD'], ['rate_to_sdg' => 2600]);

@@ -1,4 +1,4 @@
-@extends('layouts.store')
+@extends(theme_view('layout'))
 @section('title', $product->name)
 @section('body-class', 'has-bar')
 @section('head')
@@ -43,7 +43,7 @@
         @if ($store->whatsapp)<a class="btn wa sm mt" href="{{ \App\Services\Messaging\WhatsApp::link($store->whatsapp, 'استفسار عن: '.$product->name.' '.url()->current()) }}">💬 استفسر عبر واتساب</a>@endif
     </div>
 </div>
-@if ($related->isNotEmpty())<h2 class="mt">منتجات مشابهة</h2><div class="grid g4">@foreach ($related as $p)@include('partials.product-card')@endforeach</div>@endif
+@if ($related->isNotEmpty())<h2 class="mt">منتجات مشابهة</h2><div class="pgrid">@foreach ($related as $p)@include(theme_view('card'))@endforeach</div>@endif
 <div class="bottom-bar"><span class="price" style="align-self:center">{{ money($product->priceSdg()) }}</span><button form="buy" class="btn" style="flex:1" name="buy_now" value="1">اشتر الآن</button></div>
 @endsection
 @section('scripts')

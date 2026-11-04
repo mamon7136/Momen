@@ -19,7 +19,7 @@ class ProductController extends Controller
             ->when($request->q, fn ($q, $s) => $q->where(fn ($w) => $w->where('name', 'like', "%$s%")->orWhere('sku', $s)))
             ->latest()->paginate(20)->withQueryString();
 
-        return view('dashboard.products.index', compact('products'));
+        return view('dashboard.products.index', ['products' => $products, 'uncategorized' => Product::whereNull('category_id')->count()]);
     }
 
     public function create()
@@ -86,6 +86,19 @@ class ProductController extends Controller
         $product->delete();
 
         return back()->with('status', 'تم حذف المنتج');
+    }
+
+    /** Inline edit from the products list: name, price and (simple products) stock. */
+    public function quick(Request $request, Product $product, InventoryService $inventory)
+    {
+        $data = $request->validate(['name' => 'required|string|max:160', 'price' => 'required|numeric|min:0', 'stock' => 'nullable|integer|min:0']);
+        $product->update(['name' => $data['name'], 'price' => $data['price']]);
+        if ($product->type === 'simple' && $request->filled('stock')) {
+            $product->update(['track_stock' => true]);
+            $inventory->set($product, (int) $data['stock'], null, null, $request->user()->id);
+        }
+
+        return back()->with('status', 'تم حفظ "'.$product->name.'"');
     }
 
     public function stock(Request $request, Product $product, InventoryService $inventory)

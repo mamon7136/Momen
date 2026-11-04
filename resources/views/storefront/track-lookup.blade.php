@@ -1,4 +1,4 @@
-@extends('layouts.store')
+@extends(theme_view('layout'))
 @section('title', 'تتبع طلبك')
 @section('content')
 <div class="card" style="max-width:420px;margin:20px auto">

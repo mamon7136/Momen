@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 @section('title', 'تصميم المتجر')
 @section('content')
-<div class="card mb"><h3>الثيم</h3>
-    <form method="post" action="{{ route('dashboard.design.theme') }}" class="row">@csrf
-        @foreach ($themes as $t)<label class="opt"><input type="radio" name="theme_id" value="{{ $t->id }}" @checked($store->theme_id === $t->id)><span style="width:16px;height:16px;border-radius:50%;background:{{ $t->default_settings['colors']['primary'] ?? '#000' }}"></span>{{ $t->name }}</label>@endforeach
-        <button class="btn sm" onclick="return confirm('تغيير الثيم سيعيد ضبط التخصيصات، متابعة؟')">تطبيق الثيم</button>
-    </form>
+<div class="tabs">
+    <a href="{{ route('dashboard.themes.index') }}">متجر الثيمات</a>
+    <a href="{{ route('dashboard.design.edit') }}" class="on">تخصيص التصميم</a>
+    <a href="{{ route('dashboard.settings.edit') }}#domain">دومين المتجر</a>
 </div>
+<div class="banner mint">{{ icon('layout', 22) }}<div class="grow">الثيم الحالي: <b>{{ $store->theme?->name }}</b> — غيّر الألوان والخط والأقسام أدناه، أو <a href="{{ route('dashboard.themes.index') }}">اختر ثيماً آخر</a>.</div><a href="{{ $store->primaryUrl() }}" target="_blank" class="btn sm ghost">{{ icon('eye', 16) }} معاينة</a></div>
 <form method="post" action="{{ route('dashboard.design.update') }}" enctype="multipart/form-data" class="grid g2" style="align-items:start">@csrf
     <div class="card">
         <h3>الهوية</h3>
         <label>الشعار</label><input type="file" name="logo" accept="image/*">
         <div class="grid g2">@foreach (['primary'=>'اللون الأساسي','secondary'=>'اللون الثانوي','background'=>'الخلفية','text'=>'النص'] as $k=>$l)<div><label>{{ $l }}</label><input type="color" name="colors[{{ $k }}]" value="{{ $config['colors'][$k] ?? '#000000' }}"></div>@endforeach</div>
-        <label>الخط</label><select name="font">@foreach (['Tajawal','Cairo','Almarai','IBM Plex Sans Arabic','system'] as $f)<option @selected(($config['font'] ?? '')===$f)>{{ $f }}</option>@endforeach</select>
+        <label>الخط</label><select name="font">@foreach (['Tajawal','Cairo','Almarai','IBM Plex Sans Arabic','Amiri','Noto Kufi Arabic','system'] as $f)<option @selected(($config['font'] ?? '')===$f)>{{ $f }}</option>@endforeach</select>
         <label>شريط الإعلانات</label><input name="announcement" value="{{ $config['announcement'] }}" placeholder="🚚 توصيل مجاني داخل الخرطوم للطلبات فوق 50,000">
         <label>نص التذييل</label><textarea name="footer_text" rows="2">{{ $config['footer_text'] }}</textarea>
     </div>

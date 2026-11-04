@@ -14,7 +14,7 @@ class DesignController extends Controller
 {
     public const SECTION_TYPES = [
         'hero' => 'بانر رئيسي', 'categories' => 'التصنيفات', 'featured_products' => 'منتجات مميزة',
-        'latest_products' => 'أحدث المنتجات', 'banner' => 'صورة إعلانية', 'text' => 'نص حر', 'whatsapp_cta' => 'زر تواصل واتساب',
+        'latest_products' => 'أحدث المنتجات', 'banner' => 'صورة إعلانية', 'text' => 'نص حر', 'whatsapp_cta' => 'زر تواصل واتساب', 'features_bar' => 'شريط المزايا (توصيل، دفع آمن...)',
     ];
 
     public function edit()
@@ -35,7 +35,7 @@ class DesignController extends Controller
             'colors.secondary' => 'required|regex:/^#[0-9a-fA-F]{6}$/',
             'colors.background' => 'required|regex:/^#[0-9a-fA-F]{6}$/',
             'colors.text' => 'required|regex:/^#[0-9a-fA-F]{6}$/',
-            'font' => 'required|in:Tajawal,Cairo,Almarai,IBM Plex Sans Arabic,system',
+            'font' => 'required|in:Tajawal,Cairo,Almarai,IBM Plex Sans Arabic,Amiri,Noto Kufi Arabic,system',
             'announcement' => 'nullable|string|max:160',
             'footer_text' => 'nullable|string|max:300',
             'sections' => 'nullable|array|max:20',
@@ -70,8 +70,9 @@ class DesignController extends Controller
     public function theme(Request $request)
     {
         $data = $request->validate(['theme_id' => 'required|exists:themes,id']);
+        abort_unless(Theme::where('is_active', true)->whereKey($data['theme_id'])->exists(), 422);
         current_store()->update(['theme_id' => $data['theme_id'], 'theme_settings' => null]);
 
-        return back()->with('status', 'تم تغيير الثيم');
+        return redirect()->route('dashboard.themes.index')->with('status', 'تم تطبيق الثيم على متجرك 🎉');
     }
 }
